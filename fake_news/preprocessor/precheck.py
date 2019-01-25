@@ -1,4 +1,5 @@
 import requests
+from urllib.parse import urlparse
 
 class PreCheck:
 
@@ -48,6 +49,36 @@ class PreCheck:
             print("There was a problem: {}".format(exception))
 
             return False
+
+
+    def check_if_secure(self,URL):
+
+        """
+        This method checks if the given site is secure or not 
+
+        Returns False if not secure else if secure return True if not either return None
+
+        :type URL: string
+        :param URL: The URL of the Website
+        """
+        # if the url is not secure return False else if secure return True if not either return None
+        if (urlparse(URL).scheme == 'http'):
+
+            return False
+
+        elif( urlparse(URL).scheme == 'https'):
+
+            return True
+
+        else:
+            
+            return None
+
+
+
+
+
+
 
 
  
