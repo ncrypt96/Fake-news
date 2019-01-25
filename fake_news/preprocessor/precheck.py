@@ -17,6 +17,18 @@ class PreCheck:
         :param URL: The URL of the website
         """
 
+        # Remove leading and ending white spaces if there are any
+        URL = URL.strip()
+
+        if (" http://" or  " https://") in URL:
+
+            pass
+        
+        else:
+
+            URL =  "http://" + URL
+
+
         try:
             # apply a get request on the URL
             request = requests.get(URL)
@@ -33,7 +45,16 @@ class PreCheck:
         except Exception as exception:
 
             # If there arises an exception print the exception and return False
-            print("There was a problem: %{}".format(exception))
+            print("There was a problem: {}".format(exception))
 
             return False
+
+
+ 
+
+
+
+
+
+
 
