@@ -1,0 +1,5 @@
+requests==2.17.1
+newsapi_python==0.2.3
+newspaper3k==0.2.8
+newsapi==0.1.1
+newspaper==0.1.0.7
