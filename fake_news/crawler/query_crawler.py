@@ -16,27 +16,48 @@ class Crawler:
         """
         self.URL = URL
 
+        # initialize an object from the Article class and provide the URL in the constructor  
         try:
-            article = Article(self.URL)
+            self.article = Article(self.URL)
         except Exception as exception:
             print("There was a problem while initializing the article object: {}".format(exception))
         
+        # download and parse
         try:
-            article.download()
+            self.article.download()
         except Exception as exception:
             print("There was a problem while downloading the article: {}".format(exception))
 
         try:
-            article.parse()
+            self.article.parse()
         except Exception as exception:
             print("There was a problem while parsing the article: {}".format(exception))
         
 
     def get_title(self):
         """
-        This method returns the title from the given URL 
+        This method returns the title of the article (str)
         """
-        
+        return self.article.title
+
+    def get_content(self):
+        """
+        This method returns the content from the article (str)
+        """
+        return self.article.text
+
+    def get_meta_keywords(self):
+        """
+        This method returns the list of the meta keywords in the page (list)
+        """
+        return self.article.meta_keywords
+
+    def get_meta_description(self):
+        """
+        This method returns the list of the meta keywords in the page (str)
+        """
+        return self.article.meta_description
+                
         
 
 
