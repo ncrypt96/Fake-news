@@ -99,7 +99,7 @@ class NewsApiHandle:
         parse_length = 5  if len(response['articles']) >= 5 else len(response['articles'][0])
 
         # for each article returned get the corresponding URL and append it to list_of_URLs
-        for item in range(0,parse_length):
+        for item in range(parse_length):
 
             # append every title to title list
             self.title_list.append(response["articles"][item]["title"])
