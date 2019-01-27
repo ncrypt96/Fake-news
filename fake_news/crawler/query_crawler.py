@@ -96,7 +96,7 @@ class NewsApiHandle:
         response = self.news_api.get_everything(q=query_string)
 
         # if the size of list_of_URLs is more then 5 set parse_length to 5 else according to its size
-        parse_length = 5  if len(response['articles']) >= 5 else len(response['articles'][0])
+        parse_length = 5  if len(response['articles']) >= 5 else len(response['articles'])
 
         # for each article returned get the corresponding URL and append it to list_of_URLs
         for item in range(parse_length):
