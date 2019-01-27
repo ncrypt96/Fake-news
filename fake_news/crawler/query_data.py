@@ -42,8 +42,21 @@ class Data:
             api_news_crawler = Crawler(url)
 
             api_news_contents.append(api_news_crawler.get_content())
+        
 
-        return api_news_contents
+        all_news_titles = api_news_titles
+
+        all_news_descriptions = api_news_descriptons
+
+        all_news_content = api_news_contents
+
+        all_news_titles.insert(0,user_news_title)
+
+        all_news_descriptions.insert(0,user_news_meta_description)
+
+        all_news_content.insert(0,user_news_content)
+
+        return {"all":[all_news_titles,all_news_descriptions,all_news_content],"titles":all_news_titles,"descriptons":all_news_descriptions,"contents":all_news_content}
 
 
 

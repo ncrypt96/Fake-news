@@ -21,13 +21,15 @@ class PreCheck:
         # Remove leading and ending white spaces if there are any
         URL = URL.strip()
 
-        if (" http://" or  " https://") in URL:
+        if ("http://" in URL) or  ("https://" in URL):
 
             pass
         
         else:
 
             URL =  "http://" + URL
+
+        print(URL)
 
 
         try:
