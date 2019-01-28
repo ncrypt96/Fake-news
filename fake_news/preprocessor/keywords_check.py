@@ -5,7 +5,7 @@ class KeyWordCheck:
     This class contains methods to process keyword before it is applied to the api
     """
 
-    def eir_reduction(self,text,other_list_of_keywords):
+    def eir_intersection_reduction(self,text,other_list_of_keywords):
         """
         This method uses spacys entity recogintion to recognize entities and applies intersection between the meta keywords to get most relevant keywords
         it returns a list of possible keywords
@@ -46,6 +46,11 @@ class KeyWordCheck:
                     else:
                         list_of_intermediate_keywords.append(item)
 
+        #----------------------------------------------
+        print("from keyword_check.py")
+        print(set(list_of_intermediate_keywords))
+        #----------------------------------------------
+
         # assign final_keyword_list
         final_keyword_list = list_of_intermediate_keywords
         
@@ -65,8 +70,10 @@ class KeyWordCheck:
                         else:
 
                             final_keyword_list.remove(word)
-           
-
-        return final_keyword_list
+        #---------------------------------------
+        print(final_keyword_list)
+        print("from keyword_check.py")
+        #---------------------------------------
+        return set(final_keyword_list)
 
                     

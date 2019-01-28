@@ -31,11 +31,18 @@ class Data:
 
         user_news_meta_description = self.user_news_crawler.get_meta_description()
 
+        #--------------------------------------------------
+        print("from query_data.py")
+        print(user_news_meta_keywords)
+        print(user_news_meta_description)
+        print("from query_data.py")
+        #---------------------------------------------------
+
         # use to get unique kewords to query the api
         keywords_manager = KeyWordCheck()
 
         # returns a list of unique keywords
-        keywords = keywords_manager.eir_reduction(user_news_meta_description,user_news_meta_keywords)
+        keywords = keywords_manager.eir_intersection_reduction(user_news_meta_description,user_news_meta_keywords)
 
 
         # News api related stuff
