@@ -82,31 +82,43 @@ class KeyWordCheck:
         This method removes the repetitive keywords and reduces them to a single entity
 
         :type keywords: list
-        :param keywords: the keywords to be reduced
+        :param keywords: the list of properly sortred and lower case keywords
         """
-        # initialize a empty list
-        lower_case_keywords = []
 
-        # for every word make it lower case and append
+        #initialize check as flase
+        check = False
+        
+        # for each word in keywords if they have their substrings present in other members of the list then remove the larger string from the list
         for word in keywords:
-            lower_case_keywords.append(word.lower())
-
-        # make a sorted list 
-        # sort the keywords according to their length
-        sorted_keywords = sorted(lower_case_keywords,key=len)
-
-        # if small substring contain in other big string remove all the big strings associated with it
-        for word in sorted_keywords:
-
-            for item in sorted_keywords:
-
+            
+            for item in keywords:
+            
                 if(word!=item):
-
+                    
                     if(word in item):
-
-                        sorted_keywords.remove(item)
-
-        return sorted_keywords
+                    
+                        keywords.remove(item)
+                
+                
+        # check if word still have their substrings in the list
+        for word in keywords:
+            
+            for item in keywords:
+            
+                if(word!=item):
+                
+                    if(word in item):
+                
+                        check = True
+        
+        # if there are still substrings repeat the above procedure
+        # else return the keywords        
+        if(check == True):
+            
+            return self.keyword_reducer(keywords)
+        
+        else:
+            return keywords
 
     
     def eir_keywords(self,text):
@@ -137,6 +149,26 @@ class KeyWordCheck:
         
         return keywords_list
 
+    def keyword_formatter(self,keywords):
+        """
+        This method takes in keyword as an argument then makes each keyword lower case and sorts them according to their length and returns them
+
+        :type keywords: list
+        :param keywords: all the keywords found
+        """
+
+        # initialize empty
+        formatted_keywords = []
+
+        # lower case each keyword and append
+        for word in keywords:
+
+            formatted_keywords.append(word.lower())
+
+        # sort the keywords according to their length
+        formatted_keywords = sorted(formatted_keywords,key=len)
+
+        return formatted_keywords
 
 
 
