@@ -28,10 +28,7 @@ class KeyWordCheck:
         keywords = doc.ents
 
         # initialize an empty list for the keywords
-        list_of_intermediate_keywords = []
-
-        # final keywords list to be returned
-        final_keyword_list = []
+        final_keywords = []
 
         # intersect with other list of keywords
         for word in keywords:
@@ -42,39 +39,16 @@ class KeyWordCheck:
 
                     if(len(str(word))<=len(item)):
 
-                        list_of_intermediate_keywords.append(str(word))
+                        final_keywords.append(str(word))
                     else:
-                        list_of_intermediate_keywords.append(item)
-
-        #----------------------------------------------
-        print("from keyword_check.py")
-        print(set(list_of_intermediate_keywords))
-        #----------------------------------------------
-
-        # assign final_keyword_list
-        final_keyword_list = list_of_intermediate_keywords
+                        final_keywords.append(item)
         
-        # remove partial duplicates from the final list
-        for word in list_of_intermediate_keywords:
-
-            for item in list_of_intermediate_keywords:
-
-                if(word != item):
-
-                    if((word in item) or (item in word)):
-
-                        if(len(word)<=len(item)):
-
-                            final_keyword_list.remove(item)
-
-                        else:
-
-                            final_keyword_list.remove(word)
         #---------------------------------------
-        print(final_keyword_list)
+        print("from keyword_check.py")
+        print(final_keywords)
         print("from keyword_check.py")
         #---------------------------------------
-        return set(final_keyword_list)
+        return set(final_keywords)
 
 
     def keyword_reducer(self,keywords):
@@ -169,6 +143,27 @@ class KeyWordCheck:
         formatted_keywords = sorted(formatted_keywords,key=len)
 
         return formatted_keywords
+
+    
+    def remove_irrelevant_keywords(self,keywords):
+        """
+        This methods removes irrelevant keywords used for seo such as [Buisness news, Breaking news , Top news ...etc]
+        :type keywords: list
+        :param keywords: The list of keywords from wherein we need to remove the irrelevant keywords
+        """
+        # initialize empty
+        list_of_new_keywords=[]
+
+        for word in keywords:
+
+            if 'news' not in word:
+
+                list_of_new_keywords.append(word)
+
+        return list_of_new_keywords
+
+
+
 
 
 

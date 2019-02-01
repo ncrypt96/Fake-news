@@ -20,6 +20,9 @@ class Data:
         This method returns all the data in the form of a python dictionary which can be converted inti json
         passing the parameter ['all'] in the returns all of the information
         passing the parameters like ['titles'], ['descriptions'], ['contents'] return that specific data
+
+        :type keyword_extraction_algo: string
+        :param keyword_extraction_algo : The algorithm to be used to extract the keywords
         """
         
         # get data from the user provided link
@@ -45,7 +48,7 @@ class Data:
         keywords = keywords_manager.eir_intersection_reduction(user_news_meta_description,user_news_meta_keywords)
 
 
-        # News api related stuff
+        #--------------------News api related stuff START--------------------
 
         #initialize empty list for the content
         api_news_contents = []
@@ -72,6 +75,8 @@ class Data:
         all_news_descriptions = api_news_descriptons
 
         all_news_content = api_news_contents
+
+        #--------------------News api related stuff END--------------------
 
         # insert the information from the user at the first of the index
         all_news_titles.insert(0,user_news_title)
