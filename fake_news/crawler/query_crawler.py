@@ -1,7 +1,10 @@
-from newspaper import Article
 from newsapi.newsapi_client import NewsApiClient
 import requests
 import json
+from newsplease import NewsPlease
+from goose3 import Goose
+import lassie
+from fake_news.preprocessor.error_handle import highlight_back
 
 class Crawler:
     """
@@ -17,47 +20,75 @@ class Crawler:
         """
         self.URL = URL
 
-        # initialize an object from the Article class and provide the URL in the constructor  
         try:
-            self.article = Article(self.URL)
-        except Exception as exception:
-            print("There was a problem while initializing the article object: {}".format(exception))
-        
-        # download and parse
-        try:
-            self.article.download()
-        except Exception as exception:
-            print("There was a problem while downloading the article: {}".format(exception))
+            
+            # initialize Goose
+            goose = Goose()
 
-        try:
-            self.article.parse()
+            # initialize the goose article object
+            goose_article = goose.extract(self.URL)
+
+            # assign title
+            self.title = goose_article.title
+
+            # assign content
+            self.content = goose_article.cleaned_text
+
+            # assign meta keywords (str) and split it to form a list
+            self.meta_keywords = goose_article.meta_keywords.split(',')
+
+            # assign meta description
+            self.meta_description = goose_article.meta_description
+
         except Exception as exception:
-            print("There was a problem while parsing the article: {}".format(exception))
-        
+            
+            highlight_back("Crawler migrated from Goose to News-Please and Lassie due to an exception: {}".format(exception),'G')
+
+            try:
+            
+                # initialize news please object
+                news_please_article = NewsPlease.from_url(self.URL)
+
+                # set title
+                self.title = news_please_article.title
+
+                # set content
+                self.content = news_please_article.text
+
+                # set meta keywords
+                self.meta_keywords = lassie.fetch(self.URL)["keywords"]
+
+                # set meta description
+                self.meta_description = news_please_article.description
+            
+            except Exception as exception:
+
+                highlight_back("An exception has occured in News Please and Lassie method: {}".format(exception),'R')
+      
 
     def get_title(self):
         """
         This method returns the title of the article (str)
         """
-        return self.article.title
+        return self.title
 
     def get_content(self):
         """
         This method returns the content from the article (str)
         """
-        return self.article.text
+        return self.content
 
     def get_meta_keywords(self):
         """
         This method returns the list of the meta keywords in the page (list)
         """
-        return self.article.meta_keywords
+        return self.meta_keywords
 
     def get_meta_description(self):
         """
         This method returns the list of the meta keywords in the page (str)
         """
-        return self.article.meta_description
+        return self.meta_description
 
 
 class NewsApiHandle:

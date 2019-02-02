@@ -1,4 +1,5 @@
 import spacy
+from fake_news.preprocessor.error_handle import highlight_fore
 
 class KeyWordCheck:
     """
@@ -27,6 +28,13 @@ class KeyWordCheck:
         # get the entities 
         keywords = doc.ents
 
+        #---------------------------------------
+        highlight_fore("from keyword_check.py")
+        highlight_fore(str(keywords))
+        highlight_fore(other_list_of_keywords)
+        highlight_fore("from keyword_check.py")
+        #---------------------------------------
+
         # initialize an empty list for the keywords
         final_keywords = []
 
@@ -44,9 +52,9 @@ class KeyWordCheck:
                         final_keywords.append(item)
         
         #---------------------------------------
-        print("from keyword_check.py")
+        highlight_fore("from keyword_check.py")
         print(final_keywords)
-        print("from keyword_check.py")
+        highlight_fore("from keyword_check.py")
         #---------------------------------------
         return set(final_keywords)
 
