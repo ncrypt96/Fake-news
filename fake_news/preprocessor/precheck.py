@@ -11,6 +11,7 @@ class PreCheck:
 
         """
         This method is used to check if the given URL exists or if its unreachable
+        This method fails if there are redirects
 
         Returns: True if the website exists and False if it dosen't
 
@@ -28,8 +29,6 @@ class PreCheck:
         else:
 
             URL =  "http://" + URL
-
-        print(URL)
 
 
         try:
