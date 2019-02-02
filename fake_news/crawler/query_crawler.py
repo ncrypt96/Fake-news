@@ -115,8 +115,6 @@ class ContentCrawler:
 
 
 
-
-
 class NewsApiHandle:
 
     """

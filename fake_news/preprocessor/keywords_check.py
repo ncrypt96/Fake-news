@@ -1,5 +1,6 @@
 import spacy
 from fake_news.preprocessor.error_handle import highlight_fore
+import re
 
 class KeyWordCheck:
     """
@@ -155,18 +156,28 @@ class KeyWordCheck:
     
     def remove_irrelevant_keywords(self,keywords):
         """
-        This methods removes irrelevant keywords used for seo such as [Buisness news, Breaking news , Top news ...etc]
+        This methods removes irrelevant keywords used for seo such as [Buisness news, Breaking news , Top news ...etc]  and dates
         :type keywords: list
         :param keywords: The list of keywords from wherein we need to remove the irrelevant keywords
         """
         # initialize empty
-        list_of_new_keywords=[]
+        list_of_intermediate_new_keywords=[]
+        list_of_new_keywords = []
 
+        # remove term news
         for word in keywords:
 
             if 'news' not in word:
 
+                list_of_intermediate_new_keywords.append(word)
+
+        # remove dates
+        for word in list_of_intermediate_new_keywords:
+
+            if(bool(re.search(r'\d', word))==False):
+
                 list_of_new_keywords.append(word)
+
 
         return list_of_new_keywords
 
