@@ -42,7 +42,7 @@ class Crawler:
 
         except Exception as exception:
             
-            highlight_back("Crawler migrated from Goose to News-Please and Lassie due to an exception: {}".format(exception),'G')
+            highlight_back("[Crawler] Crawler migrated from Goose to News-Please and Lassie due to an exception: {}".format(exception),'G')
 
             try:
             
@@ -63,7 +63,7 @@ class Crawler:
             
             except Exception as exception:
 
-                highlight_back("An exception has occured in News Please and Lassie method: {}".format(exception),'R')
+                highlight_back("[Crawler] An exception has occured in News Please and Lassie method: {}".format(exception),'R')
       
 
     def get_title(self):
@@ -89,6 +89,30 @@ class Crawler:
         This method returns the list of the meta keywords in the page (str)
         """
         return self.meta_description
+
+class ContentCrawler:
+    """
+    This class contains methods that crawls only the content from the given link
+    """
+
+    def extract_content(self,URL):
+        """
+        This method returns the main content from the given URL
+        """
+        try:
+            # Extract content
+            content = Goose().extract(URL).cleaned_text
+        except Exception as exception:
+            highlight_back("[ContentCrawler] Crawler migrated from Goose to News-Please due to an exception: {}".format(exception),'G')
+
+            try:
+                # Extract content usinf NewsPleas
+                content = NewsPlease.from_url(URL).text
+            except Exception as exception:
+                highlight_back("[ContentCrawler] An exception has occured in News Please and Lassie method: {}".format(exception),'R')
+
+
+
 
 
 class NewsApiHandle:
