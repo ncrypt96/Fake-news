@@ -149,6 +149,9 @@ class NewsApiHandle:
         # initialize an empty list of Urls
         self.Urls_list = []
 
+        # initialize an empty list of sources
+        self.sources = []
+
         # query the api
         response = self.news_api.get_everything(q=query_string)
 
@@ -166,6 +169,9 @@ class NewsApiHandle:
 
             # append every Urls to Urls_list
             self.Urls_list.append(response["articles"][item]["url"])
+
+            # append every source to source list
+            self.sources.append(response["articles"][item]['source']['name'])
 
 
 
@@ -187,6 +193,11 @@ class NewsApiHandle:
         """
         return self.descriptions_list
         
+    def get_sources(self):
+        """
+        This method returns the source of 
+        """
+        return self.sources
 
 
 
