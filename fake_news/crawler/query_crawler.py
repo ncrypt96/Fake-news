@@ -111,6 +111,8 @@ class ContentCrawler:
             except Exception as exception:
                 highlight_back("[ContentCrawler] An exception has occured in News Please and Lassie method: {}".format(exception),'R')
 
+        return content
+
 
 
 
