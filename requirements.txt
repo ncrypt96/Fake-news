@@ -1,10 +1,10 @@
-goose3==3.1.6
-colorama==0.3.9
 numpy==1.15.1
-news_please==1.2.50
 nltk==3.3
-newsapi_python==0.2.3
+colorama==0.3.9
 spacy==2.0.18
-lassie==0.11.7
+goose3==3.1.6
 requests==2.18.4
+lassie==0.11.7
+news_please==1.2.50
+newsapi_python==0.2.3
 newsapi==0.1.1
