@@ -4,7 +4,7 @@ import json
 from newsplease import NewsPlease
 from goose3 import Goose
 import lassie
-from fake_news.preprocessor.error_handle import highlight_back
+from fake_news.preprocessor.error_handle import highlight_back , line_loc
 
 class Crawler:
     """
@@ -43,7 +43,8 @@ class Crawler:
         except Exception as exception:
             
             highlight_back("[Crawler] Crawler migrated from Goose to News-Please and Lassie due to an exception: {}".format(exception),'G')
-
+            line_loc()
+            
             try:
             
                 # initialize news please object
@@ -64,6 +65,7 @@ class Crawler:
             except Exception as exception:
 
                 highlight_back("[Crawler] An exception has occured in News Please and Lassie method: {}".format(exception),'R')
+                line_loc()
       
 
     def get_title(self):
@@ -151,7 +153,7 @@ class NewsApiHandle:
         self.sources_list = []
 
         # query the api
-        response = self.news_api.get_everything(q=query_string)
+        response = self.news_api.get_everything(q=query_string,sort_by='relevancy')
 
         # if the size of list_of_URLs is more then 5 set parse_length to 5 else according to its size
         parse_length = 5  if len(response['articles']) >= 5 else len(response['articles'])

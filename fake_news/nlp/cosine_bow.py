@@ -1,5 +1,6 @@
 from fake_news.preprocessor.nlp_preprocessor import NlpPreprocessing
 import numpy as np 
+from fake_news.preprocessor.error_handle import line_loc
 
 def compute_cosine(vector_A,vector_B):
     """
@@ -54,7 +55,6 @@ def cosine_similartity_bow(text_list):
 
         doc_specific_tokens.append(tokenizer.word_lem_tokenize())
 
-    print(doc_specific_tokens)
 
     # get all tokens
     for tokens in doc_specific_tokens:
@@ -63,12 +63,12 @@ def cosine_similartity_bow(text_list):
 
             all_tokens.append(token)
 
-    print(all_tokens)
+    line_loc()
 
     # remove repeated tokens
     unique_tokens = list(set(all_tokens))
-
-    print(unique_tokens)
+    
+    line_loc()
 
     # make vectors
     for token in range(len(doc_specific_tokens)):
@@ -77,8 +77,6 @@ def cosine_similartity_bow(text_list):
 
 
     cosine = []
-
-    print(vectors)
 
     # compute cosine
     for i in range(1,len(doc_specific_tokens)):

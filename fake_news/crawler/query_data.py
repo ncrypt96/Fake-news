@@ -1,6 +1,6 @@
 from fake_news.crawler.query_crawler import Crawler,NewsApiHandle,ContentCrawler
 from fake_news.preprocessor.keywords_check import KeyWordCheck
-from fake_news.preprocessor.error_handle import highlight_fore,highlight_back
+from fake_news.preprocessor.error_handle import highlight_fore,highlight_back,line_loc
 
 class Data:
     """
@@ -38,11 +38,11 @@ class Data:
         user_news_meta_description = self.user_news_crawler.get_meta_description()
 
         #--------------------------------------------------
-        print("from query_data.py")
+        line_loc()
         print(user_news_meta_keywords)
         print(user_news_meta_description)
         print(user_news_title)
-        print("from query_data.py")
+        line_loc()
         #---------------------------------------------------
         #-------------keyword processing START--------------
 
@@ -60,16 +60,19 @@ class Data:
             # assign meta keywords to keywords
             keywords = intermediate_keywords
             print("here 1")
+            line_loc()
         elif(len(intermediate_keywords)==4):
             # pop the last element from the list
             intermediate_keywords.pop(-1)
             keywords = intermediate_keywords
-            print("here 2")            
+            print("here 2")
+            line_loc()            
         elif(len(intermediate_keywords)==5):
             intermediate_keywords.pop(-1)
             intermediate_keywords.pop(-1)
             keywords = intermediate_keywords
             print("here 3")
+            line_loc()
         else:
             # lower case the meta keywords and sort them according to their length
             intermediate_keywords = keywords_manager.keyword_formatter(intermediate_keywords)
@@ -81,18 +84,21 @@ class Data:
             if(len(intermediate_keywords)<=3):
                 keywords = intermediate_keywords
                 print("here 4")
+                line_loc()
             elif(len(intermediate_keywords)==4):
                 intermediate_keywords.pop(-1)
                 keywords = intermediate_keywords
                 print("here 5")
+                line_loc()
             elif(len(intermediate_keywords)==5):
                 intermediate_keywords.pop(-1)
                 intermediate_keywords.pop(-1)
                 keywords = intermediate_keywords
                 print("here 6")
+                line_loc()
             else:
                 # import named entities from the description and the title as keywords
-                eir_keywords = keywords_manager.eir_keywords(user_news_meta_description) + keywords_manager.eir_keywords(user_news_title)
+                eir_keywords = list(set(keywords_manager.eir_keywords(user_news_meta_description) + keywords_manager.eir_keywords(user_news_title)))
                 # lower case and sort
                 print(eir_keywords)
                 eir_keywords = keywords_manager.keyword_formatter(eir_keywords)
@@ -103,26 +109,32 @@ class Data:
                 # remove irrelevent
                 eir_keywords = keywords_manager.remove_irrelevant_keywords(eir_keywords)
                 print("here 7")
+                line_loc()
                 print(eir_keywords)
                 # check if there are more than one keywords but less than 3
                 if(len(eir_keywords)>1 and len(eir_keywords)<=3):
                     keywords = eir_keywords
                     print("here 8")
+                    line_loc()
                 elif(len(eir_keywords)==4):
                     eir_keywords.pop(-1)
                     keywords = eir_keywords
                     print("here 9")
+                    line_loc()
                 elif(len(eir_keywords)==5):
                     eir_keywords.pop(-1)
                     eir_keywords.pop(-1)
                     keywords = eir_keywords
                     print("here 10")
+                    line_loc()
                 else:
                     # perform intersection between named entities and meta keywords
                     keywords = keywords_manager.eir_intersection_reduction(user_news_meta_description,user_news_meta_keywords)
                     print("here 11")
+                    line_loc()
                     if(len(keywords)<=1):
                         print("here 12")
+                        line_loc()
                         highlight_back("There was a problem while extracting the keywords",'R')
                         highlight_fore("Please input unique keywords relevent to the article separated by ','","B")
                         highlight_fore("Suggested Keywords: ",'Y')

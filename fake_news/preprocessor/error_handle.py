@@ -1,5 +1,5 @@
-# This module deals with highlighting all the messases
-
+# This module deals with highlighting all the messages for debugging and making work easier
+from inspect import getframeinfo,stack
 from colorama import Fore,Back,Style,init
 # initialize colorama
 init()
@@ -56,6 +56,15 @@ def highlight_fore(text,color='Y'):
         print(Fore.YELLOW+text)
 
     # reset styles
+    print(Style.RESET_ALL)
+    
+
+def line_loc():
+    """
+    This method prints the filename and line of the current file where it is called
+    """
+    frameinfo = getframeinfo(stack()[1][0])
+    print(Back.CYAN + Fore.BLACK+(" From the file:  * "+ frameinfo.filename +" *  Line no:  "+ str(frameinfo.lineno)+" "))
     print(Style.RESET_ALL)
 
 

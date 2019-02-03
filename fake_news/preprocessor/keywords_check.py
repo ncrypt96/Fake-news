@@ -1,5 +1,5 @@
 import spacy
-from fake_news.preprocessor.error_handle import highlight_fore
+from fake_news.preprocessor.error_handle import highlight_fore,line_loc
 import re
 
 class KeyWordCheck:
@@ -30,10 +30,10 @@ class KeyWordCheck:
         keywords = doc.ents
 
         #---------------------------------------
-        highlight_fore("from keyword_check.py")
+        line_loc()
         highlight_fore(str(keywords))
         highlight_fore(other_list_of_keywords)
-        highlight_fore("from keyword_check.py")
+        line_loc()
         #---------------------------------------
 
         # initialize an empty list for the keywords
@@ -53,9 +53,9 @@ class KeyWordCheck:
                         final_keywords.append(item)
         
         #---------------------------------------
-        highlight_fore("from keyword_check.py")
+        line_loc()
         print(final_keywords)
-        highlight_fore("from keyword_check.py")
+        line_loc()
         #---------------------------------------
         return set(final_keywords)
 
