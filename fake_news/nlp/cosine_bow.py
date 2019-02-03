@@ -32,6 +32,7 @@ def compute_bow_vectors(all_uinque_tokens,document_specific_tokens):
     
     return final_list
 
+#==================MAIN METHOD===============================
 
 def cosine_similartity_bow(text_list):
     """
@@ -85,6 +86,8 @@ def cosine_similartity_bow(text_list):
         cosine.append(compute_cosine(vectors[0],vectors[i]))
 
     return cosine
+
+#==================MAIN METHOD===============================
         
 
 
