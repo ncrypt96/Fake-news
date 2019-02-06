@@ -32,5 +32,6 @@ remove the longest keyword if you wanna remove from query_data.py line 64
 
 remove countries and days from remove_irrevelant_keywords
 
+increase keywodrds size 
 working---------
 https://timesofindia.indiatimes.com/india/days-of-tmc-government-in-bengal-numbered-yogi-adityanath/articleshow/67817242.cms
