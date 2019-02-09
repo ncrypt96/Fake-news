@@ -35,3 +35,9 @@ remove countries and days from remove_irrevelant_keywords
 increase keywodrds size 
 working---------
 https://timesofindia.indiatimes.com/india/days-of-tmc-government-in-bengal-numbered-yogi-adityanath/articleshow/67817242.cms
+
+
+working------------------
+https://www.news18.com/news/world/apple-google-slammed-for-hosting-app-that-allows-men-to-track-women-in-saudi-arabia-2030703.html
+http://fortune.com/2019/02/08/apple-screen-recording-apps/
+https://www.usatoday.com/story/news/politics/2019/02/08/donald-trump-undergoes-annual-physical-exam-new-doctor/2810956002/
