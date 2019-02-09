@@ -13,7 +13,7 @@ for keys in range(6,2,-1):
 
     p = data.get_all_data(no_of_keywords=keys)
 
-    # if the crawler returns something break
+    # if the crawler returns something more than ueser data break
     if(len(p['titles'])>1):
         break
 

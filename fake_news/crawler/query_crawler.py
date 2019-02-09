@@ -34,6 +34,11 @@ class Crawler:
             # assign content
             self.content = goose_article.cleaned_text
 
+            # if the content retreived is null raise an exception that would migrate the crawler from goose to news please and lasse
+            if(len(self.content)==0):
+                raise Exception 
+
+
             # assign meta keywords (str) and split it to form a list
             self.meta_keywords = goose_article.meta_keywords.split(',')
 
@@ -104,6 +109,11 @@ class ContentCrawler:
         try:
             # Extract content
             content = Goose().extract(URL).cleaned_text
+
+            # If the returned content is null raise an exception to change the crawler
+            if(len(content)==0):
+                raise Exception
+
         except Exception as exception:
             highlight_back("[ContentCrawler] Crawler migrated from Goose to News-Please due to an exception: {}".format(exception),'G')
 

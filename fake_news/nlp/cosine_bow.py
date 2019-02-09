@@ -75,7 +75,6 @@ def cosine_similartity_bow(text_list):
 
         vectors.append(compute_bow_vectors(unique_tokens,doc_specific_tokens[token]))
 
-
     cosine = []
 
     # compute cosine

@@ -223,6 +223,7 @@ class Data:
         all_news_titles = api_news_titles
 
         all_news_descriptions = api_news_descriptons
+        
 
         all_news_content = api_news_contents
 
