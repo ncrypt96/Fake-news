@@ -15,12 +15,354 @@ class Data:
         # Initialize the variables
         self.URL = URL
         self.user_news_crawler = Crawler(URL)
+    
+    def get_user_data(self,URL):
+        """
+        This method returns the data from the users link
+        :type URL: string
+        :param URL: The Url of the website
+
+        returns a dictionary with keys all, title,description, content , meta_keywords
+        """
+        # initialize the crawler for crawling the news form the users URL
+        user_Crawler = Crawler(URL)
+        
+        # get title
+        title = user_Crawler.get_title()
+
+        # get description
+        description = user_Crawler.get_meta_description()
+
+        # get content
+        content = user_Crawler.get_content()
+
+        # get all the meta_ keywords
+        meta_keywords = user_Crawler.get_meta_keywords()
+
+        return {"title":title,"description":description,"content":content,"meta_keywords":meta_keywords}
+
+    
+    def get_data_wo_user_help(self,user_link_data,no_of_keywords=6):
+        """
+        This method returns all data without the user giving the keywords
+
+        :type user_link_data: dict
+        :param user_link_data: the data retreived from the users link including titlesc contents etc
+
+        :type no_of_keywords: int
+        :param no_of_keywords: the number of keywords for AND operation
+
+        """
+        # if true let the user enter the keywords
+        ask_keywords_from_user = False
+
+        # get title from the users link
+        user_link_title = user_link_data['title']
+
+        # get description from the users link
+        user_link_description = user_link_data['description']
+
+        # get the content from users link
+        user_link_content = user_link_data['content']
+
+        # get the meta keywords
+        user_link_meta_keywords  = user_link_data['meta_keywords']
+
+        line_loc()
+        print(user_link_title)
+        print(user_link_description)
+        print(user_link_content)
+        print(user_link_meta_keywords)
+        line_loc()
+
+        # KEYWORD MANAGEMENT STARTS HERE--------------------
+
+        # initialize empty keywords
+        keywords = []
+
+        # initialize empty entity keywords
+        eir_keywords = []
+
+        # KeyWordCheck contains methods for processing keywords
+        keyword_manager = KeyWordCheck()
+
+        # remove duplicated and sort the user meta keywords according to the length
+        intermediate_keywords = sorted(list(set(user_link_meta_keywords)),key=len)
+
+        if((len(intermediate_keywords)<=1)):
+
+            # recoginze keywords from users title and the description and add them and remove duplicates
+            no_meta_eir_keywords = list(set(keyword_manager.eir_keywords(user_link_title)+keyword_manager.eir_keywords(user_link_description)))
+
+            print(no_meta_eir_keywords)
+
+            # sort and lower case keywords
+            no_meta_eir_keywords = keyword_manager.keyword_formatter(no_meta_eir_keywords)
+
+            print(no_meta_eir_keywords)
+
+            # reduce similar keywords
+            no_meta_eir_keywords = keyword_manager.keyword_reducer(no_meta_eir_keywords)
+
+            print(no_meta_eir_keywords)
+
+            # remove irrevelant keywords
+            no_meta_eir_keywords = keyword_manager.remove_irrelevant_keywords(no_meta_eir_keywords)
+
+            print(no_meta_eir_keywords)
+
+            print("HERE 1")
+            line_loc()
+
+            # check if the number of keywords is greater than 1 but less than the number of keywords
+            if(len(no_meta_eir_keywords)>1 and len(no_meta_eir_keywords)<=no_of_keywords):
+
+                keywords = no_meta_eir_keywords
+                print("HERE 2")
+                line_loc()
+
+            elif(len(no_meta_eir_keywords)==no_of_keywords+1):
+
+                no_meta_eir_keywords.pop(-1)
+                # pop the last keyword
+                keywords = no_meta_eir_keywords
+                print("HERE 3")
+                line_loc()
+            
+            elif(len(no_meta_eir_keywords)==no_of_keywords+2):
+
+                no_meta_eir_keywords.pop(-1)
+                no_meta_eir_keywords.pop(-1)
+
+                keywords = no_meta_eir_keywords
+                print("HERE 4")
+                line_loc()
+            
+            else:
+                # skip the current method and ask the user for keywords
+                ask_keywords_from_user = True
+
+                highlight_back("Asking the user for keywords",'R')
+        
+        # check if the length of meta keywords are greater than or equal to 2 but less than  no_of_keywords 
+        elif(len(intermediate_keywords)>=2 and len(intermediate_keywords)<=no_of_keywords):
+
+            keywords = intermediate_keywords
+
+            print("HERE 5")
+            line_loc()
+        
+        elif(len(intermediate_keywords)==no_of_keywords+1):
+
+            intermediate_keywords.pop(-1)
+            keywords = intermediate_keywords
+
+            print("HERE 6")
+            line_loc()
+
+        elif(len(intermediate_keywords)==no_of_keywords+2):
+
+            intermediate_keywords.pop(-1)
+            intermediate_keywords.pop(-1)
+            keywords = intermediate_keywords
+            print(keywords)
+            print("HERE 7")
+            line_loc()
+        else:
+            
+            # lower case and sort keywords
+            intermediate_keywords = keyword_manager.keyword_formatter(intermediate_keywords)
+
+            # remove duplicate keywords
+            intermediate_keywords = keyword_manager.keyword_reducer(intermediate_keywords)
+
+            # remove irrevelent keywords
+            intermediate_keywords = keyword_manager.remove_irrelevant_keywords(intermediate_keywords)
+
+            if(len(intermediate_keywords)>1 and len(intermediate_keywords)<=no_of_keywords):
+                
+                keywords = intermediate_keywords
+                
+                print("HERE 8")
+                line_loc()
+            
+            elif(len(intermediate_keywords)==no_of_keywords+1):
+
+                intermediate_keywords.pop(-1)
+                keywords = intermediate_keywords
+
+                print("HERE 9")
+                line_loc()
+            
+            elif(len(intermediate_keywords)==no_of_keywords+2):
+
+                intermediate_keywords.pop(-1)
+                intermediate_keywords.pop(-1)
+
+                print("HERE 10")
+                line_loc()
+
+            else:
+                # use named entities in description and description as keywords
+                eir_keywords = list(set(keyword_manager.eir_keywords(user_link_title)+keyword_manager.eir_keywords(user_link_description)))
+                print(eir_keywords)
+                # lower case 
+                eir_keywords = keyword_manager.keyword_formatter(eir_keywords)
+                print(eir_keywords)
+                # remove duplicates
+                eir_keywords = keyword_manager.keyword_reducer(eir_keywords)
+                print(eir_keywords)
+                # remove irrevelent 
+                eir_keywords = keyword_manager.remove_irrelevant_keywords(eir_keywords)
+                print(eir_keywords)
+                line_loc()
+
+                if(len(eir_keywords)>1 and len(eir_keywords)<=no_of_keywords):
+
+                    keywords = eir_keywords
+
+                    print("HERE 11")
+                    line_loc()
+
+                elif(len(eir_keywords)==no_of_keywords+1):
+
+                    eir_keywords.pop(-1)
+                    keywords = eir_keywords
+                    
+                    print("HERE 12")
+                    line_loc()
+
+                elif(len(eir_keywords)==no_of_keywords+2):
+
+                    eir_keywords.pop(-1)
+                    eir_keywords.pop(-1)
+                    keywords = eir_keywords
+
+                    print("HERE 13")
+                    line_loc()
+                
+                else:
+                    # apply intersection between keywords in the description and keywords in the meta tag
+                    eir_intersection_keywords = keyword_manager.eir_intersection_reduction(user_link_description,user_link_meta_keywords)
+                    print(eir_intersection_keywords)
+
+                    # lower case and sort
+                    eir_intersection_keywords = keyword_manager.keyword_formatter(eir_intersection_keywords)
+                    print(eir_intersection_keywords)
+
+                    # remove duplicates
+                    eir_intersection_keywords = keyword_manager.keyword_reducer(eir_intersection_keywords)
+                    print(eir_intersection_keywords)
+
+                    # remove irrevelent
+                    eir_intersection_keywords = keyword_manager.remove_irrelevant_keywords(eir_intersection_keywords)
+                    print(eir_intersection_keywords)
+                    line_loc()
+
+                    if(len(eir_intersection_keywords)<=1):
+
+                        ask_keywords_from_user = True
+
+                        print("HERE 14")
+                        line_loc()
+
+                    elif(len(eir_intersection_keywords)>1 and len(eir_intersection_keywords)<no_of_keywords):
+
+                        keywords = eir_intersection_keywords
+
+                        print("HERE 15")
+                        line_loc()
+                    
+                    elif(len(eir_intersection_keywords)==no_meta_eir_keywords+1):
+
+                        eir_intersection_keywords.pop(-1)
+                        keywords = eir_intersection_keywords
+
+                        print("HERE 16")
+                        line_loc()
+
+                    elif(len(eir_intersection_keywords)==no_meta_eir_keywords+2):
+
+                        eir_intersection_keywords.pop(-1)
+                        eir_intersection_keywords.pop(-1)
+
+                        print("HERE 17")
+                        line_loc()
+
+                    else:
+
+                        ask_keywords_from_user = True
+
+                        print("HERE 18")
+                        line_loc()
+            
+
+        print(keywords)
+        line_loc()
+
+        # KEYWORD MANAGEMENT ENDS HERE-------------------
+
+            
+        if(ask_keywords_from_user==True):
+
+            # return failed status and ask the user to give the keywords
+            return {"status":"fail","suggestions":sorted(list(set(user_link_meta_keywords+keyword_manager.eir_keywords(user_link_description))),key=len)}
+
+        else:
+            
+            api_news_handler = NewsApiHandle(API_Key="3689abcc32e2468abb4eed31af2115c0",keyword_list=keywords)
+
+            # initialize empty list for api content
+            api_news_contents = []
+
+            # get titles
+            api_news_titles = api_news_handler.get_titles()
+
+            # get sources
+            all_news_sources = api_news_handler.get_sources()
+
+            # get URLs
+            api_news_Urls = api_news_handler.get_URLs()
+
+            # get descriptions
+            api_news_descriptons = api_news_handler.get_descriptions()
+
+            # get only the content from the given urls
+            api_news_crawler = ContentCrawler()
+
+            # extract content from each URL and append
+            for url in api_news_Urls:
+
+                api_news_contents.append(api_news_crawler.extract_content(url))
+
+            all_news_titles = api_news_titles
+
+            all_news_descriptions = api_news_descriptons
+
+            all_news_contents = api_news_contents
+
+            # insert users news title on to the first element
+            all_news_titles.insert(0,user_link_title)
+
+            all_news_descriptions.insert(0,user_link_description)
+
+            all_news_contents.insert(0,user_link_content)
+
+            return ({"status":"success","sources":all_news_sources,"titles":all_news_titles,"descriptions":all_news_descriptions,"contents":all_news_contents})
+
+
+    def get_data_with_users_help(self):
+        pass        
+
+
         
     def get_all_data(self,no_of_keywords=6):
         """
         This method returns all the data in the form of a python dictionary which can be converted inti json
         passing the parameter ['all'] in the returns all of the information
         passing the parameters like ['titles'], ['descriptions'], ['contents'] return that specific data
+        
+        This method should only be used while testing in cli mode
 
         :type no_of_keywords: int
         :param no_of_keywords : the number of keywords considered

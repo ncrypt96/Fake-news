@@ -77,6 +77,7 @@ def cosine_similartity_bow(text_list):
 
     cosine = []
 
+
     # compute cosine
     for i in range(1,len(doc_specific_tokens)):
         
