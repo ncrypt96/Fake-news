@@ -265,6 +265,7 @@ class Data:
 
                         print("HERE 14")
                         line_loc()
+                        highlight_back("Asking the user for keywords",'R')
 
                     elif(len(eir_intersection_keywords)>1 and len(eir_intersection_keywords)<no_of_keywords):
 
@@ -295,6 +296,7 @@ class Data:
 
                         print("HERE 18")
                         line_loc()
+                        highlight_back("Asking the user for keywords",'R')
             
 
         print(keywords)
@@ -348,11 +350,64 @@ class Data:
 
             all_news_contents.insert(0,user_link_content)
 
-            return ({"status":"success","sources":all_news_sources,"titles":all_news_titles,"descriptions":all_news_descriptions,"contents":all_news_contents})
+            return ({"status":"success","sources":all_news_sources,"titles":all_news_titles,"descriptions":all_news_descriptions,"contents":all_news_contents,"suggestions":sorted(list(set(user_link_meta_keywords+keyword_manager.eir_keywords(user_link_description))),key=len)})
 
 
-    def get_data_with_users_help(self):
-        pass        
+    def get_data_with_users_help(self,user_link_data,keywords):
+        
+        """
+        This method takes in keywords and the data from the users link and uses the keywords to  find content
+        It returns all data in the form of a dictionary
+
+        :type keywords: list
+        :param keywords: list of keywords by the user
+        """
+        # get users link title
+        user_link_title = user_link_data['title']
+
+        # get description
+        user_link_description = user_link_data['description']
+
+        # get content
+        user_link_content = user_link_data['content']
+
+        api_news_handler = NewsApiHandle(API_Key="3689abcc32e2468abb4eed31af2115c0",keyword_list=keywords)
+
+        # initialize empty
+        api_news_contents = []
+
+        # get sources
+        all_news_sources = api_news_handler.get_sources()
+
+        # get api titles
+        api_news_titles = api_news_handler.get_titles()
+
+        api_news_descriptions = api_news_handler.get_descriptions()
+
+        api_news_Urls = api_news_handler.get_URLs()
+
+        # for only crawling the content from the url
+        api_news_crawler = ContentCrawler()
+
+        # for each url extract the content and append
+        for url in api_news_Urls:
+
+            api_news_contents.append(api_news_crawler.extract_content(url))
+
+        all_news_titles = api_news_titles
+
+        all_news_descriptions = api_news_descriptions
+
+        all_news_contents = api_news_contents
+
+        # insert all the data from users link on to the first element on the list
+        all_news_titles.insert(0,user_link_title)
+
+        all_news_descriptions.insert(0,user_link_description)
+
+        all_news_contents.insert(0,user_link_content)
+
+        return {"sources":all_news_sources,"titles":all_news_titles,"descriptions":all_news_descriptions,"contents":all_news_contents}
 
 
         
