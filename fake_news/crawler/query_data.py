@@ -6,15 +6,6 @@ class Data:
     """
     This class contains all the methods to get data from various other classes
     """
-    def __init__(self,URL):
-        """
-        This method is used to initialize self.URL
-        :type URL: string
-        :param URL: Url of thr website
-        """
-        # Initialize the variables
-        self.URL = URL
-        self.user_news_crawler = Crawler(URL)
     
     def get_user_data(self,URL):
         """
@@ -411,7 +402,7 @@ class Data:
 
 
         
-    def get_all_data(self,no_of_keywords=6):
+    def get_all_data(self,URL,no_of_keywords=6):
         """
         This method returns all the data in the form of a python dictionary which can be converted inti json
         passing the parameter ['all'] in the returns all of the information
@@ -419,20 +410,23 @@ class Data:
         
         This method should only be used while testing in cli mode
 
+        :type URL: string
+        :param URL: the url of the website
+
         :type no_of_keywords: int
         :param no_of_keywords : the number of keywords considered
         """
-        # initialize NewApi object
-        
+        # initialize Crawler
+        user_news_crawler = Crawler(URL)
         
         # get data from the user provided link
-        user_news_content = self.user_news_crawler.get_content()
+        user_news_content = user_news_crawler.get_content()
 
-        user_news_title  = self.user_news_crawler.get_title()
+        user_news_title  = user_news_crawler.get_title()
 
-        user_news_meta_keywords = self.user_news_crawler.get_meta_keywords()
+        user_news_meta_keywords = user_news_crawler.get_meta_keywords()
 
-        user_news_meta_description = self.user_news_crawler.get_meta_description()
+        user_news_meta_description = user_news_crawler.get_meta_description()
 
         #--------------------------------------------------
         line_loc()
