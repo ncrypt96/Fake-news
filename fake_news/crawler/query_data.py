@@ -189,6 +189,7 @@ class Data:
 
                 intermediate_keywords.pop(-1)
                 intermediate_keywords.pop(-1)
+                keywords = intermediate_keywords
 
                 print("HERE 10")
                 line_loc()
@@ -277,6 +278,7 @@ class Data:
 
                         eir_intersection_keywords.pop(-1)
                         eir_intersection_keywords.pop(-1)
+                        keywords = eir_intersection_keywords
 
                         print("HERE 17")
                         line_loc()

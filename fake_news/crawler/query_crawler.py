@@ -21,55 +21,59 @@ class Crawler:
         self.URL = URL
 
         try:
-            
-            # initialize Goose
-            goose = Goose()
 
-            # initialize the goose article object
-            goose_article = goose.extract(self.URL)
+            # initialize NewsPlease
+            news_please_article = NewsPlease.from_url(self.URL)
 
-            # assign title
-            self.title = goose_article.title
+            # set title
+            self.title = news_please_article.title
 
-            # assign content
-            self.content = goose_article.cleaned_text
+            # set content
+            self.content = news_please_article.text
 
-            # if the content retreived is null raise an exception that would migrate the crawler from goose to news please and lasse
+            # if the content retreived is null raise an exception that would migrate the crawler from news please and lasse to goose
             if(len(self.content)==0):
                 raise Exception 
 
+            # set meta keywords
+            self.meta_keywords = lassie.fetch(self.URL)["keywords"]
 
-            # assign meta keywords (str) and split it to form a list
-            self.meta_keywords = goose_article.meta_keywords.split(',')
+            # set meta description
+            self.meta_description = news_please_article.description
 
-            # assign meta description
-            self.meta_description = goose_article.meta_description
 
         except Exception as exception:
             
-            highlight_back("[Crawler] Crawler migrated from Goose to News-Please and Lassie due to an exception: {}".format(exception),'G')
+            highlight_back("[Crawler] Crawler migrated from News-Please and Lassie to Goose due to an exception: {}".format(exception),'G')
             line_loc()
             
             try:
-            
-                # initialize news please object
-                news_please_article = NewsPlease.from_url(self.URL)
 
-                # set title
-                self.title = news_please_article.title
+                # initialize Goose
+                goose = Goose()
 
-                # set content
-                self.content = news_please_article.text
+                # initialize the goose article object
+                goose_article = goose.extract(self.URL)
 
-                # set meta keywords
-                self.meta_keywords = lassie.fetch(self.URL)["keywords"]
+                # assign title
+                self.title = goose_article.title
 
-                # set meta description
-                self.meta_description = news_please_article.description
+                # assign content
+                self.content = goose_article.cleaned_text
+
+                # if the content retreived is null raise an exception that would migrate the crawler from goose to news please and lasse
+                if(len(self.content)==0):
+                    raise Exception 
+
+                # assign meta keywords (str) and split it to form a list
+                self.meta_keywords = goose_article.meta_keywords.split(',')
+
+                # assign meta description
+                self.meta_description = goose_article.meta_description
             
             except Exception as exception:
 
-                highlight_back("[Crawler] An exception has occured in News Please and Lassie method: {}".format(exception),'R')
+                highlight_back("[Crawler] An exception has occured in Goose: {}".format(exception),'R')
                 line_loc()
       
 
@@ -121,7 +125,10 @@ class ContentCrawler:
                 # Extract content usinf NewsPleas
                 content = NewsPlease.from_url(URL).text
             except Exception as exception:
-                highlight_back("[ContentCrawler] An exception has occured in News Please and Lassie method: {}".format(exception),'R')
+                highlight_back("[ContentCrawler] An exception has occured in News Please and Lassie method content is empty: {}".format(exception),'R')
+
+                #content is now empty 
+                content = ""
 
         return content
 
