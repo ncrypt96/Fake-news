@@ -41,6 +41,9 @@ class Crawler:
             # set meta description
             self.meta_description = news_please_article.description
 
+            # top image url
+            self.top_img_url = news_please_article.image_url
+            
 
         except Exception as exception:
             
@@ -70,6 +73,9 @@ class Crawler:
 
                 # assign meta description
                 self.meta_description = goose_article.meta_description
+                
+                # top image url
+                self.top_img_url = ''
             
             except Exception as exception:
 
@@ -100,6 +106,12 @@ class Crawler:
         This method returns the list of the meta keywords in the page (str)
         """
         return self.meta_description
+
+    def get_top_image_URL(self):
+        """
+        This method gets the top image from the page
+        """
+        return self.top_img_url
 
 class ContentCrawler:
     """

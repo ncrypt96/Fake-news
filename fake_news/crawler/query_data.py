@@ -13,7 +13,7 @@ class Data:
         :type URL: string
         :param URL: The Url of the website
 
-        returns a dictionary with keys all, title,description, content , meta_keywords
+        returns a dictionary with keys all, title,description, content , meta_keywords ,top_img_URL
         """
         # initialize the crawler for crawling the news form the users URL
         user_Crawler = Crawler(URL)
@@ -30,7 +30,10 @@ class Data:
         # get all the meta_ keywords
         meta_keywords = user_Crawler.get_meta_keywords()
 
-        return {"title":title,"description":description,"content":content,"meta_keywords":meta_keywords}
+        # get top image
+        top_img_URL = user_Crawler.get_top_image_URL()
+
+        return {"title":title,"description":description,"content":content,"meta_keywords":meta_keywords,"top_img_URL": top_img_URL}
 
     
     def get_data_wo_user_help(self,user_link_data,no_of_keywords=6):
@@ -59,11 +62,15 @@ class Data:
         # get the meta keywords
         user_link_meta_keywords  = user_link_data['meta_keywords']
 
+        # link to the top image
+        user_link_top_img_url = user_link_data['top_img_URL']
+
         line_loc()
         print(user_link_title)
         print(user_link_description)
         print(user_link_content)
         print(user_link_meta_keywords)
+        print(user_link_top_img_url)
         line_loc()
 
         # KEYWORD MANAGEMENT STARTS HERE--------------------
@@ -343,7 +350,7 @@ class Data:
 
             all_news_contents.insert(0,user_link_content)
 
-            return ({"status":"success","sources":all_news_sources,"titles":all_news_titles,"descriptions":all_news_descriptions,"contents":all_news_contents,"suggestions":sorted(list(set(user_link_meta_keywords+keyword_manager.eir_keywords(user_link_description))),key=len)})
+            return ({"status":"success","sources":all_news_sources,"titles":all_news_titles,"descriptions":all_news_descriptions,"contents":all_news_contents,"suggestions":sorted(list(set(user_link_meta_keywords+keyword_manager.eir_keywords(user_link_description))),key=len),"top_img_URL": user_link_top_img_url})
 
 
     def get_data_with_users_help(self,user_link_data,keywords):
@@ -363,6 +370,9 @@ class Data:
 
         # get content
         user_link_content = user_link_data['content']
+
+        # link to the top image
+        user_link_top_img_url = user_link_data['top_img_URL']
 
         api_news_handler = NewsApiHandle(API_Key="3689abcc32e2468abb4eed31af2115c0",keyword_list=keywords)
 
@@ -400,7 +410,7 @@ class Data:
 
         all_news_contents.insert(0,user_link_content)
 
-        return {"sources":all_news_sources,"titles":all_news_titles,"descriptions":all_news_descriptions,"contents":all_news_contents}
+        return {"sources":all_news_sources,"titles":all_news_titles,"descriptions":all_news_descriptions,"contents":all_news_contents,"top_img_URL": user_link_top_img_url}
 
 
         
