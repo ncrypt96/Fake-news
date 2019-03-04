@@ -1,6 +1,7 @@
 from fake_news.crawler.query_crawler import Crawler,NewsApiHandle,ContentCrawler
 from fake_news.preprocessor.keywords_check import KeyWordCheck
 from fake_news.preprocessor.error_handle import highlight_fore,highlight_back,line_loc
+from fake_news.preprocessor.nlp_preprocessor import NlpPreprocessing
 
 class Data:
     """
@@ -643,6 +644,91 @@ class Data:
 
         # return all data as dictionary and later can be converted into a json object
         return {"all":[all_news_sources,all_news_titles,all_news_descriptions,all_news_content],"sources":all_news_sources,"titles":all_news_titles,"descriptons":all_news_descriptions,"contents":all_news_content}
+
+    
+    def get_titles_from_query(self,text):
+        """
+        This method is incomplete
+        """
+
+        sources = []
+
+        titles = []
+
+        success = True
+
+        keyword_manager = KeyWordCheck()
+
+
+        tokenizer_preprocessor = NlpPreprocessing(text)
+
+        keywords = tokenizer_preprocessor.word_lem_tokenize()
+
+        keywords = keyword_manager.keyword_formatter(keywords)
+
+        keywords = keyword_manager.keyword_reducer(keywords)
+
+        keywords = keyword_manager.remove_irrelevant_keywords(keywords)
+
+        keywords = sorted(list(set(keywords)),key=len)
+
+
+        if(len(keywords)!=0):
+
+            if(len(keywords)<=3):
+
+                api_news_handler = NewsApiHandle(API_Key="3689abcc32e2468abb4eed31af2115c0",keyword_list=keywords)
+            
+            else:
+
+                for i in range(1,(len(keywords)-3)):
+
+                    api_news_handler = NewsApiHandle(API_Key="3689abcc32e2468abb4eed31af2115c0",keyword_list=keywords[0:len(keywords-i)])
+
+                    if(len(api_news_handler.get_sources())>0):
+                        break
+
+
+        if(len(api_news_handler.get_sources())>0):
+
+            sources = api_news_handler.get_sources()
+
+            titles = api_news_handler.get_titles()
+
+        else:
+
+            success = False
+
+        # get sources
+        sources = api_news_handler.get_sources()
+
+        # get api titles
+        titles = api_news_handler.get_titles()
+
+
+        if(success==True):
+
+            return {"status":"success","sources":sources,"titles":titles}
+        else:
+
+            return{"status":"fail"}
+
+
+
+
+
+
+        
+
+            
+
+            
+
+        
+
+
+
+
 
 
 

@@ -54,3 +54,7 @@ class Query:
 
         # return values
         return predict['label_probs']
+
+
+
+
