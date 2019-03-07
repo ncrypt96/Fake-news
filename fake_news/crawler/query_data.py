@@ -14,7 +14,7 @@ class Data:
         :type URL: string
         :param URL: The Url of the website
 
-        returns a dictionary with keys all, title,description, content , meta_keywords ,top_img_URL
+        returns a dictionary with keys all, title,description, content , meta_keywords ,top_img_URL,users_link
         """
         # initialize the crawler for crawling the news form the users URL
         user_Crawler = Crawler(URL)
@@ -34,7 +34,7 @@ class Data:
         # get top image
         top_img_URL = user_Crawler.get_top_image_URL()
 
-        return {"title":title,"description":description,"content":content,"meta_keywords":meta_keywords,"top_img_URL": top_img_URL}
+        return {"title":title,"description":description,"content":content,"meta_keywords":meta_keywords,"top_img_URL": top_img_URL,"users_link":URL}
 
     
     def get_data_wo_user_help(self,user_link_data,no_of_keywords=6):
@@ -65,6 +65,9 @@ class Data:
 
         # link to the top image
         user_link_top_img_url = user_link_data['top_img_URL']
+
+        # url of the users link
+        user_link_URL = user_link_data['users_link']
 
         line_loc()
         print(user_link_title)
@@ -309,7 +312,7 @@ class Data:
         if(ask_keywords_from_user==True):
 
             # return failed status and ask the user to give the keywords
-            return {"status":"fail","suggestions":sorted(list(set(user_link_meta_keywords+keyword_manager.eir_keywords(user_link_description))),key=len)}
+            return {"status":"fail","suggestions":sorted(list(set(user_link_meta_keywords+keyword_manager.eir_keywords(user_link_description))),key=len),"users_link":user_link_URL}
 
         else:
             
@@ -351,7 +354,7 @@ class Data:
 
             all_news_contents.insert(0,user_link_content)
 
-            return ({"status":"success","sources":all_news_sources,"titles":all_news_titles,"descriptions":all_news_descriptions,"contents":all_news_contents,"suggestions":sorted(list(set(user_link_meta_keywords+keyword_manager.eir_keywords(user_link_description))),key=len),"top_img_URL": user_link_top_img_url})
+            return ({"status":"success","sources":all_news_sources,"titles":all_news_titles,"descriptions":all_news_descriptions,"contents":all_news_contents,"suggestions":sorted(list(set(user_link_meta_keywords+keyword_manager.eir_keywords(user_link_description))),key=len),"top_img_URL": user_link_top_img_url,"users_link":user_link_URL})
 
 
     def get_data_with_users_help(self,user_link_data,keywords):
