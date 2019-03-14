@@ -7,7 +7,7 @@ class Data:
     """
     This class contains all the methods to get data from various other classes
     """
-    
+
     def get_user_data(self,URL):
         """
         This method returns the data from the users link
@@ -18,7 +18,7 @@ class Data:
         """
         # initialize the crawler for crawling the news form the users URL
         user_Crawler = Crawler(URL)
-        
+
         # get title
         title = user_Crawler.get_title()
 
@@ -36,7 +36,7 @@ class Data:
 
         return {"title":title,"description":description,"content":content,"meta_keywords":meta_keywords,"top_img_URL": top_img_URL,"users_link":URL}
 
-    
+
     def get_data_wo_user_help(self,user_link_data,no_of_keywords=6):
         """
         This method returns all data without the user giving the keywords
@@ -130,7 +130,7 @@ class Data:
                 keywords = no_meta_eir_keywords
                 print("HERE 3")
                 line_loc()
-            
+
             elif(len(no_meta_eir_keywords)==no_of_keywords+2):
 
                 no_meta_eir_keywords.pop(-1)
@@ -139,21 +139,21 @@ class Data:
                 keywords = no_meta_eir_keywords
                 print("HERE 4")
                 line_loc()
-            
+
             else:
                 # skip the current method and ask the user for keywords
                 ask_keywords_from_user = True
 
                 highlight_back("Asking the user for keywords",'R')
-        
-        # check if the length of meta keywords are greater than or equal to 2 but less than  no_of_keywords 
+
+        # check if the length of meta keywords are greater than or equal to 2 but less than  no_of_keywords
         elif(len(intermediate_keywords)>=2 and len(intermediate_keywords)<=no_of_keywords):
 
             keywords = intermediate_keywords
 
             print("HERE 5")
             line_loc()
-        
+
         elif(len(intermediate_keywords)==no_of_keywords+1):
 
             intermediate_keywords.pop(-1)
@@ -171,7 +171,7 @@ class Data:
             print("HERE 7")
             line_loc()
         else:
-            
+
             # lower case and sort keywords
             intermediate_keywords = keyword_manager.keyword_formatter(intermediate_keywords)
 
@@ -182,12 +182,12 @@ class Data:
             intermediate_keywords = keyword_manager.remove_irrelevant_keywords(intermediate_keywords)
 
             if(len(intermediate_keywords)>1 and len(intermediate_keywords)<=no_of_keywords):
-                
+
                 keywords = intermediate_keywords
-                
+
                 print("HERE 8")
                 line_loc()
-            
+
             elif(len(intermediate_keywords)==no_of_keywords+1):
 
                 intermediate_keywords.pop(-1)
@@ -195,7 +195,7 @@ class Data:
 
                 print("HERE 9")
                 line_loc()
-            
+
             elif(len(intermediate_keywords)==no_of_keywords+2):
 
                 intermediate_keywords.pop(-1)
@@ -209,13 +209,13 @@ class Data:
                 # use named entities in description and description as keywords
                 eir_keywords = list(set(keyword_manager.eir_keywords(user_link_title)+keyword_manager.eir_keywords(user_link_description)))
                 print(eir_keywords)
-                # lower case 
+                # lower case
                 eir_keywords = keyword_manager.keyword_formatter(eir_keywords)
                 print(eir_keywords)
                 # remove duplicates
                 eir_keywords = keyword_manager.keyword_reducer(eir_keywords)
                 print(eir_keywords)
-                # remove irrevelent 
+                # remove irrevelent
                 eir_keywords = keyword_manager.remove_irrelevant_keywords(eir_keywords)
                 print(eir_keywords)
                 line_loc()
@@ -231,7 +231,7 @@ class Data:
 
                     eir_keywords.pop(-1)
                     keywords = eir_keywords
-                    
+
                     print("HERE 12")
                     line_loc()
 
@@ -243,7 +243,7 @@ class Data:
 
                     print("HERE 13")
                     line_loc()
-                
+
                 else:
                     # apply intersection between keywords in the description and keywords in the meta tag
                     eir_intersection_keywords = keyword_manager.eir_intersection_reduction(user_link_description,user_link_meta_keywords)
@@ -276,7 +276,7 @@ class Data:
 
                         print("HERE 15")
                         line_loc()
-                    
+
                     elif(len(eir_intersection_keywords)==no_meta_eir_keywords+1):
 
                         eir_intersection_keywords.pop(-1)
@@ -301,21 +301,21 @@ class Data:
                         print("HERE 18")
                         line_loc()
                         highlight_back("Asking the user for keywords",'R')
-            
+
 
         print(keywords)
         line_loc()
 
         # KEYWORD MANAGEMENT ENDS HERE-------------------
 
-            
+
         if(ask_keywords_from_user==True):
 
             # return failed status and ask the user to give the keywords
             return {"status":"fail","suggestions":sorted(list(set(user_link_meta_keywords+keyword_manager.eir_keywords(user_link_description))),key=len),"users_link":user_link_URL}
 
         else:
-            
+
             api_news_handler = NewsApiHandle(API_Key="3689abcc32e2468abb4eed31af2115c0",keyword_list=keywords)
 
             # initialize empty list for api content
@@ -354,11 +354,11 @@ class Data:
 
             all_news_contents.insert(0,user_link_content)
 
-            return ({"status":"success","sources":all_news_sources,"titles":all_news_titles,"descriptions":all_news_descriptions,"contents":all_news_contents,"suggestions":sorted(list(set(user_link_meta_keywords+keyword_manager.eir_keywords(user_link_description))),key=len),"top_img_URL": user_link_top_img_url,"users_link":user_link_URL})
+            return ({"status":"success","sources":all_news_sources,"titles":all_news_titles,"descriptions":all_news_descriptions,"contents":all_news_contents,"suggestions":sorted(list(set(user_link_meta_keywords+keyword_manager.eir_keywords(user_link_description))),key=len),"top_img_URL": user_link_top_img_url,"users_link":user_link_URL,"api_news_urls":api_news_Urls})
 
 
     def get_data_with_users_help(self,user_link_data,keywords):
-        
+
         """
         This method takes in keywords and the data from the users link and uses the keywords to  find content
         It returns all data in the form of a dictionary
@@ -414,16 +414,16 @@ class Data:
 
         all_news_contents.insert(0,user_link_content)
 
-        return {"sources":all_news_sources,"titles":all_news_titles,"descriptions":all_news_descriptions,"contents":all_news_contents,"top_img_URL": user_link_top_img_url}
+        return {"sources":all_news_sources,"titles":all_news_titles,"descriptions":all_news_descriptions,"contents":all_news_contents,"top_img_URL": user_link_top_img_url,"api_news_urls":api_news_Urls}
 
 
-        
+
     def get_all_data(self,URL,no_of_keywords=6):
         """
         This method returns all the data in the form of a python dictionary which can be converted inti json
         passing the parameter ['all'] in the returns all of the information
         passing the parameters like ['titles'], ['descriptions'], ['contents'] return that specific data
-        
+
         This method should only be used while testing in cli mode
 
         :type URL: string
@@ -434,7 +434,7 @@ class Data:
         """
         # initialize Crawler
         user_news_crawler = Crawler(URL)
-        
+
         # get data from the user provided link
         user_news_content = user_news_crawler.get_content()
 
@@ -456,7 +456,7 @@ class Data:
         # use to get unique kewords to query the api
         keywords_manager = KeyWordCheck()
 
-        # initialize an empty list 
+        # initialize an empty list
         keywords = []
 
         intermediate_keywords = sorted((list(set(user_news_meta_keywords))),key=len)
@@ -502,8 +502,8 @@ class Data:
                 highlight_fore("Suggested Keywords: ",'Y')
                 highlight_fore(list(set(no_meta_eir_keywords)),'G')
                 # get keywords from the user
-                keywords = input().split(',') 
-                line_loc()       
+                keywords = input().split(',')
+                line_loc()
         elif(len(intermediate_keywords)>=2 and len(intermediate_keywords)<=no_of_keywords):
             # assign meta keywords to keywords
             keywords = intermediate_keywords
@@ -514,7 +514,7 @@ class Data:
             intermediate_keywords.pop(-1)
             keywords = intermediate_keywords
             print("here 2")
-            line_loc()            
+            line_loc()
         elif(len(intermediate_keywords)==(no_of_keywords+2)):
             intermediate_keywords.pop(-1)
             intermediate_keywords.pop(-1)
@@ -524,7 +524,7 @@ class Data:
         else:
             # lower case the meta keywords and sort them according to their length
             intermediate_keywords = keywords_manager.keyword_formatter(intermediate_keywords)
-            # reduce the number of keywords 
+            # reduce the number of keywords
             intermediate_keywords = keywords_manager.keyword_reducer(intermediate_keywords)
             # remove irrevelent keywords which are put for seo purposes
             intermediate_keywords = keywords_manager.remove_irrelevant_keywords(intermediate_keywords)
@@ -607,9 +607,9 @@ class Data:
 
         #initialize empty list for the content
         api_news_contents = []
-        
+
         # initialize the client with an api key
-        api_news_handler = NewsApiHandle(API_Key="3689abcc32e2468abb4eed31af2115c0",keyword_list=keywords) 
+        api_news_handler = NewsApiHandle(API_Key="3689abcc32e2468abb4eed31af2115c0",keyword_list=keywords)
 
         api_news_titles = api_news_handler.get_titles()
 
@@ -625,12 +625,12 @@ class Data:
         for url in api_news_Urls:
 
             api_news_contents.append(api_news_crawler.extract_content(url))
-        
+
 
         all_news_titles = api_news_titles
 
         all_news_descriptions = api_news_descriptons
-        
+
 
         all_news_content = api_news_contents
 
@@ -648,7 +648,7 @@ class Data:
         # return all data as dictionary and later can be converted into a json object
         return {"all":[all_news_sources,all_news_titles,all_news_descriptions,all_news_content],"sources":all_news_sources,"titles":all_news_titles,"descriptons":all_news_descriptions,"contents":all_news_content}
 
-    
+
     def get_titles_from_query(self,text):
         """
         This method is incomplete
@@ -681,7 +681,7 @@ class Data:
             if(len(keywords)<=3):
 
                 api_news_handler = NewsApiHandle(API_Key="3689abcc32e2468abb4eed31af2115c0",keyword_list=keywords)
-            
+
             else:
 
                 for i in range(1,(len(keywords)-3)):
@@ -715,27 +715,3 @@ class Data:
         else:
 
             return{"status":"fail"}
-
-
-
-
-
-
-        
-
-            
-
-            
-
-        
-
-
-
-
-
-
-
-        
-        
-
-        
