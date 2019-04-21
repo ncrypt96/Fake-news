@@ -7,6 +7,10 @@ class Data:
     """
     This class contains all the methods to get data from various other classes
     """
+    def __init__(self,API_KEY):
+
+        # initialize API KEY for news api
+        self.API_KEY = API_KEY
 
     def get_user_data(self,URL):
         """
@@ -316,7 +320,7 @@ class Data:
 
         else:
 
-            api_news_handler = NewsApiHandle(API_Key="3689abcc32e2468abb4eed31af2115c0",keyword_list=keywords)
+            api_news_handler = NewsApiHandle(API_Key=self.API_KEY,keyword_list=keywords)
 
             # initialize empty list for api content
             api_news_contents = []
@@ -378,7 +382,7 @@ class Data:
         # link to the top image
         user_link_top_img_url = user_link_data['top_img_URL']
 
-        api_news_handler = NewsApiHandle(API_Key="3689abcc32e2468abb4eed31af2115c0",keyword_list=keywords)
+        api_news_handler = NewsApiHandle(API_Key=self.API_KEY,keyword_list=keywords)
 
         # initialize empty
         api_news_contents = []
@@ -609,7 +613,7 @@ class Data:
         api_news_contents = []
 
         # initialize the client with an api key
-        api_news_handler = NewsApiHandle(API_Key="3689abcc32e2468abb4eed31af2115c0",keyword_list=keywords)
+        api_news_handler = NewsApiHandle(API_Key=self.API_KEY,keyword_list=keywords)
 
         api_news_titles = api_news_handler.get_titles()
 
@@ -680,13 +684,13 @@ class Data:
 
             if(len(keywords)<=3):
 
-                api_news_handler = NewsApiHandle(API_Key="3689abcc32e2468abb4eed31af2115c0",keyword_list=keywords)
+                api_news_handler = NewsApiHandle(API_Key=self.API_KEY,keyword_list=keywords)
 
             else:
 
                 for i in range(1,(len(keywords)-3)):
 
-                    api_news_handler = NewsApiHandle(API_Key="3689abcc32e2468abb4eed31af2115c0",keyword_list=keywords[0:len(keywords-i)])
+                    api_news_handler = NewsApiHandle(API_Key=self.API_KEY,keyword_list=keywords[0:len(keywords-i)])
 
                     if(len(api_news_handler.get_sources())>0):
                         break

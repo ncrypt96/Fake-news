@@ -2,11 +2,13 @@ from fake_news.crawler.query_data import Data
 from fake_news.preprocessor.error_handle import highlight_back
 from fake_news.nlp.cosine_bow import cosine_similartity_bow
 
-def without_keywords(url):
+def without_keywords(url,API_KEY):
     
     """
     :type url: string
     :param url: url of the website
+    :type API_KEY: string
+    :param API_KEY: google news api API Key
 
     This method returns two types of dictionary
     if the algorithm manages to find relevent articlesit returns a dictionary with keys
@@ -18,7 +20,7 @@ def without_keywords(url):
 
     """
     # initialize data object
-    d = Data()
+    d = Data(API_KEY)
 
     # get the data  from the link (dict)
     p = d.get_user_data(url)
@@ -60,11 +62,15 @@ def without_keywords(url):
 
 
 
-def with_keywords(url,keywords):
+def with_keywords(url,keywords,API_KEY):
 
     """
     :type url: string
+    :param url: URL of the website
+    :type keywords: keywords related to the article
     :param keywords: list
+    :type API_KEY: string
+    :param API_KEY: api key for google news API
 
     This method returns a dctionary with following keys
 
@@ -74,7 +80,7 @@ def with_keywords(url,keywords):
     """
 
     # initialize data
-    d = Data()
+    d = Data(API_KEY)
 
     user_link_data_wo = d.get_user_data(url)
 
