@@ -5,7 +5,7 @@
 
   
 
-*** (Desktop client: https://github.com/ncrypt96/Fake-news-desktop) ***
+### (Desktop client: https://github.com/ncrypt96/Fake-news-desktop) ###
 
 This project aims to detect **Fake news**
 
