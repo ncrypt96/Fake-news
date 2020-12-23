@@ -9,7 +9,7 @@
 
 This project aims to detect **Fake news**
 
-We take the URL from the user-> Extract Keywords->Crawl the web for related articles->Comapre the similarity with each article
+We take the URL from the user-> Extract Keywords-> Crawl the web for related articles-> Compare the similarity with each article
 
 # Installation
 
