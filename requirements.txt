@@ -3,7 +3,7 @@ colorama==0.3.9
 nltk==3.3
 requests==2.18.4
 news_please==1.2.50
-numpy==1.15.4
+numpy==1.22.0
 allennlp==0.8.1
 newsapi_python==0.2.3
 goose3==3.1.6
